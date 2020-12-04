@@ -16,10 +16,12 @@ router.get('/:id', function(req,res,next){
     let collection = db.get('games');
     collection.findOne({_id: req.params.id}, {partial: true}, function(err,game){
         if(err) throw err;
-        res.json(game);
+        res.render('game', {game: game});
         
     })
-})
+});
+
+
 
 router.post('/', function(req,res,next){
     let collection = db.get('games');
