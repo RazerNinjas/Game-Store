@@ -21,6 +21,17 @@ router.get('/:id', function(req,res,next){
     })
 });
 
+router.get('/search', function(req,res,next){
+    let collection = db.get('games');
+    if(!req.query.category || req.query.category === 'default')
+        req.query.category = '';
+    collection.find({title: {$regex: `^.*${req.query.title}.*$`, $options: 'i'}, category: {$regex: `^.*${req.query.category}.*$`, $options: 'i'}}, function(err, games){
+    
+    
+    res.render('search', {games: games})
+  });
+})
+
 
 
 router.post('/', function(req,res,next){
