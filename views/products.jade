@@ -1,15 +1,11 @@
 extends layout
 
 block content
+    block content
     div(class="container")
         div(class="row")
             //- - console.log(games)
             - games.forEach(function(game){
                 div(class="sm-col-3")
-                    img(src="/images/" + #{game.board-img})
                     p #{game.title}
-                    p #{game.players}
-                    p #{game.category} 
-                    p #{game.brand} 
-                    p #{game.price}
             - })

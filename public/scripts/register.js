@@ -1,10 +1,35 @@
 $(function(){
-    $("#register").submit(function(){
+    $("#register-form").submit(function(event){
+        
+        event.preventDefault();
+        if($("#username").val().length !== 0 && $("#password").val().length !== 0)
+        {
+            if(validUsername($("#username").val()) && validPassword($("#password").val()))
+                return true;     
+            else
+                return false;
+        }
 
-        if(validUsername($("#username").val()) && validPassword($("#password").val()))
-            return true;     
-        else
-            return false;
+        if($("#username").val().length === 0){
+            if(!$("#username-empty").length){
+                $(`<div id="username-empty" class="error"> </div>`).appendTo('#form-username');
+                $('#username-empty').text("Username is required");
+            }
+        }
+        else{
+            if($("#username-empty").length)
+                $("#username-empty").remove();
+        }
+        if($("#password").val().length === 0){
+            if(!$("#password-empty").length){
+                $(`<div id="password-empty" class="error"> </div>`).appendTo('#form-password');
+                $('#password-empty').text("Password is required");
+            }
+        }
+        else {
+            if($("#password-empty").length)
+                $("#password-empty").remove();
+        }
     });
 
     $("#username").change(function(){
@@ -17,6 +42,9 @@ $(function(){
         }
         else
         {
+            if($("#username-empty").length)
+                $("#username-empty").remove();
+
             if(validUsername($(this).val()))
                 $(this).css("background-color","lightgreen"); 
             else
@@ -41,6 +69,9 @@ $(function(){
                 $("#password-error4").remove(); 
         }
         else{
+            if($("#password-empty").length)
+                $("#password-empty").remove();
+
             if(validPassword($(this).val()))
                 $(this).css("background-color","lightgreen"); 
             else
@@ -63,7 +94,7 @@ function validUsername(username)
     {
         if(!$("#username-error").length){
             $(`<div id="username-error" class="error"> </div>`).appendTo('#form-username');
-            $('#username-error').text("Error: contains non alphanumeric characters");
+            $('#username-error').text("Contains non alphanumeric characters");
         }
 
         return false;
@@ -98,7 +129,7 @@ function validPassword(password)
         if (!regLower.test(password)){
             if(!$("#password-error1").length){
                 $(`<div id="password-error1" class="error"> </div>`).appendTo('#form-password');
-                $('#password-error1').text("Error: doesn't contain a lowercase letter");
+                $('#password-error1').text("Missing a lowercase letter");
             }
         }
         else {
@@ -108,7 +139,7 @@ function validPassword(password)
         if (!regUpper.test(password)){
             if(!$("#password-error2").length){
                 $(`<div id="password-error2" class="error"> </div>`).appendTo('#form-password');
-                $('#password-error2').text("Error: doesn't contain an uppercase letter");
+                $('#password-error2').text("Missing an uppercase letter");
             }
         }
         else{
@@ -118,7 +149,7 @@ function validPassword(password)
         if (!regNumber.test(password)){
             if(!$("#password-error3").length){
                 $(`<div id="password-error3" class="error"> </div>`).appendTo('#form-password');
-                $('#password-error3').text("Error: doesn't contain a number");
+                $('#password-error3').text("Missing a number");
             }
         }
         else{
@@ -128,7 +159,7 @@ function validPassword(password)
         if (password.length < 6){
             if(!$("#password-error4").length){
                 $(`<div id="password-error4" class="error"> </div>`).appendTo('#form-password');
-                $('#password-error4').text("Error: is less than 6 characters long");
+                $('#password-error4').text("Less than 6 characters long");
             }
         }
         else{
