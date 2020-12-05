@@ -1,0 +1,12 @@
+extends layout
+
+block content
+    div(class="container")
+        h1 Game Information
+        p
+            img(src=`/images/#{game.board-img}` alt=`#{game.board-img}`)
+        p Title: #{game.title}
+        p Players: #{game.title}
+        p Category: #{game.category}
+        p Brand: #{game.brand}
+        p Price: #{game.price}

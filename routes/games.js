@@ -12,6 +12,14 @@ router.get('/', function(req,res,next){
     
 });
 
+router.get('/products', function(req, res, next){
+    let collection = db.get('games');
+    collection.find({},function(err,games){
+        if(err) throw err;
+        res.render("products", {games: games});
+    });
+});
+
 router.get('/:id', function(req,res,next){
     let collection = db.get('games');
     collection.findOne({_id: req.params.id}, {partial: true}, function(err,game){
@@ -26,9 +34,8 @@ router.get('/search', function(req,res,next){
     if(!req.query.category || req.query.category === 'default')
         req.query.category = '';
     collection.find({title: {$regex: `^.*${req.query.title}.*$`, $options: 'i'}, category: {$regex: `^.*${req.query.category}.*$`, $options: 'i'}}, function(err, games){
-    
-    
-    res.render('search', {games: games})
+        if(err) throw err; 
+        res.render('search', {games: games})
   });
 })
 

@@ -1,0 +1,11 @@
+extends layout
+
+block content
+    div(class="container")
+        div(class="row")
+            - foreach game in #{games} 
+                div(class="sm-col-3")
+                    p
+                        img(src=`images/#{game.board-img}`)
+                    p #{game.title}
+                    p $#{game.price}
