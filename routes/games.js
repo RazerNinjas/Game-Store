@@ -6,8 +6,14 @@ var db = monk('localhost:27017/boardgames');
 
 router.get('/', function(req, res, next){
     let collection = db.get('games');
-    collection.find({},function(err,games){
+    collection.find({"soft-delete": false},function(err,games){
         if(err) throw err;
+        if(req.session.user){
+            if(req.session.isAdmin){
+                res.render("products", {isAdmin: true, games: games, username: req.session.user});
+            }
+            res.render("products", {games: games, username: req.session.user});
+        }
         res.render("products", {games: games});
     });
 });
@@ -16,8 +22,14 @@ router.get('/search', function(req,res,next){
     let collection = db.get('games');
     if(!req.query.category || req.query.category === 'default')
         req.query.category = '';
-    collection.find({title: {$regex: `^.*${req.query.title}.*$`, $options: 'i'}, category: {$regex: `^.*${req.query.category}.*$`, $options: 'i'}}, function(err, games){
-        if(err) throw err; 
+    collection.find({title: {$regex: `^.*${req.query.title}.*$`, $options: 'i'}, category: {$regex: `^.*${req.query.category}.*$`, $options: 'i'}, "soft-delete": false}, function(err, games){
+        if(err) throw err;
+        if(req.session.user){
+            if(req.session.isAdmin){
+                res.render("search", {isAdmin: true, games: games, username: req.session.user});
+            }
+            res.render("search", {games: games, username: req.session.user});
+        } 
         res.render('search', {games: games})
   });
 })

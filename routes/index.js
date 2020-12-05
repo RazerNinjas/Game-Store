@@ -1,5 +1,6 @@
 var express = require('express');
 var monk = require('monk');
+var crypto = require('crypto');
 var router = express.Router();
 var db = monk('localhost:27017/boardgames');
 
@@ -19,7 +20,27 @@ router.post('/login', function(req, res, next){
     return;
   }
   let collection = db.get('users');
-  //let hashPassword = 
+  let hashPassword = crypto.createHash('sha256').update(req.body.password).digest('hex');
+  collection.findOne({username: req.body.username, password: hashPassword}, function(err,user){
+    if(err) throw err;
+    if(!user)
+      res.render('login',{message: "Invalid Username or Password"});
+    req.session.user = user.username;
+    if(user.isAdmin)
+      req.session.isAdmin = true;
+    res.redirect('/games');
+    
+  });
+
+router.get('/logout', function(req, res, next){
+  if(req.session){
+    req.session.destroy(function(){
+      console.log("User logged out removing session");
+    });
+  }
+  res.redirect('/games');
+  
+})
 
 
 });
