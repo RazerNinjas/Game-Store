@@ -51,6 +51,15 @@ router.get('/register', function(req, res ,next){
 });
 
 router.post('/register', function(req,res,next){
+  let collection = db.get('users');
+  collection.insert({
+    username: req.body.username,
+    password: crypto.createHash('sha256').update(req.body.password).digest('hex'),
+    cart = {list: [], total: 0.0},
+    purchaseHistory = [],
+    isAdmin = false
+  });
+  res.render('login', {message: "Thank you for registering! Please login again to get started!"});
   return;
 });
 
