@@ -1,17 +1,13 @@
 $(function(){
     $("#register-form").submit(function(event){
 
-        event.preventDefault();
-
         if ($("#exist-user").length)
             $("#exist-user").remove();
 
         if($("#username").val().length !== 0 && $("#password").val().length !== 0)
         {
-            if(validUsername($("#username").val()) && validPassword($("#password").val()))
-                return true;     
-            else
-                return false;
+            if(!validUsername($("#username").val()) || !validPassword($("#password").val()))
+                return false;     
         }
 
         if($("#username").val().length === 0){
@@ -40,12 +36,17 @@ $(function(){
                 $("#password-empty").remove();
         }
 
+        console.log("test");
         $.ajax({
             method: "POST",
             url: "/api/exists",
             data: {"username" : $("#username").val()},
             success: function(data)
             {
+                console.log(data);
+                alert(data.result);
+                return false;
+
                 if(data.result)
                 {
                     $(`<div id="exist-user" class="error"> </div>`).appendTo('#register-box');
