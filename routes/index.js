@@ -52,6 +52,7 @@ router.get('/register', function(req, res ,next){
 
 router.post('/register', function(req,res,next){
   let collection = db.get('users');
+  console.log(req.body);
   collection.insert({
     username: req.body.username,
     password: crypto.createHash('sha256').update(req.body.password).digest('hex'),
