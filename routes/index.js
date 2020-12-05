@@ -35,9 +35,11 @@ router.post('/login', function(req, res, next){
     req.session.user = user.username;
     if(user.isAdmin)
       req.session.isAdmin = true;
-    res.redirect('/games');
+    res.redirect('/games')
+    
     
   });
+  
 });
 
 router.get('/logout', function(req, res, next){
@@ -71,6 +73,7 @@ router.post('/register', function(req,res,next){
 router.get('/cart', function(req,res,next){
   if(!req.session.user){
     res.redirect('/login');
+    return;
   }
   let collection = db.get('users');
   collection.findOne({username: req.session.user}, function(err, user){

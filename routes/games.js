@@ -11,8 +11,10 @@ router.get('/', function(req, res, next){
         if(req.session.user){
             if(req.session.isAdmin){
                 res.render("products", {isAdmin: true, games: games, username: req.session.user});
+                return;
             }
             res.render("products", {games: games, username: req.session.user});
+            return;
         }
         res.render("products", {games: games});
     });
