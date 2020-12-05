@@ -1,6 +1,7 @@
 var express = require('express');
 var monk = require('monk');
 var router = express.Router();
+var db = monk('localhost:27017/boardgames');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -12,11 +13,15 @@ router.get('/login', function(req, res, next){
 });
 
 router.post('/login', function(req, res, next){
-  if(!req.body.id || !req.body.password){
+  if(!req.body.username || !req.body.password){
     res.status("400");
     res.send("Invalid details!");
     return;
-  } 
+  }
+  let collection = db.get('users');
+  //let hashPassword = 
+
+
 });
 
 router.get('/register', function(req, res ,next){
