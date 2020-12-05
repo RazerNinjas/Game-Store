@@ -12,11 +12,7 @@ router.post('/', async function(req,res,next){
     let user = await collection.findOne({username: req.session.user});
     let approvedItems = [];
     for(item of user.cart.list){
-        console.log("FOR LOOP ITEM");
-        console.log(item);
-        console.log("HERE IS THE GAME");
         let game = await games.findOne({_id: item.gameID});
-        console.log(game);
         if(game.quantity-item.quantity >= 0 && !game["soft-delete"])
             approvedItems.push(item);
         else{
