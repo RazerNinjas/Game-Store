@@ -40,3 +40,5 @@ router.post('/', function(req,res,next){
       res.render('thanks',{username: req.session.user});
     });
   });
+
+  module.exports = router;
