@@ -70,22 +70,8 @@ router.post('/register', function(req,res,next){
   return;
 });
 
-router.get('/cart', function(req,res,next){
-  if(!req.session.user){
-    res.redirect('/login');
-    return;
-  }
-  let collection = db.get('users');
-  collection.findOne({username: req.session.user}, function(err, user){
-    if(req.query.error)
-    {
-      res.render('cart',{title: "Cart",username: req.session.user, cart: user.cart, error: req.query.error});
-      return;
-    }
-    res.render('cart',{title: "Cart",username: req.session.user, cart: user.cart});
-  });
-  
-});
+
+
 
 router.get('/history', function(req,res,next){
   if(!req.session.user){

@@ -52,5 +52,14 @@ router.post('/', function(req,res,next){
 
     })
 })
+
+router.get('/edit', function(req,res,next){
+    if(!req.session.user){
+        res.redirect('/login');
+        return;
+      }
+    let collection = db.get('users')
+    res.render('editCart', {title: "Edit Cart", });
+})
   
 module.exports = router;
