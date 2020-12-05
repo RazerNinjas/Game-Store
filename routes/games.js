@@ -9,7 +9,7 @@ router.get('/', function(req, res, next){
     collection.find({"soft-delete": false},function(err,games){
         if(err) throw err;
         let currentPage;
-        if(!req.query.currentPage)
+        if(!req.query.page)
             currentPage = 1;
         else
             currentPage = req.query.page;
