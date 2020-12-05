@@ -56,8 +56,8 @@ router.post('/register', function(req,res,next){
     username: req.body.username,
     password: crypto.createHash('sha256').update(req.body.password).digest('hex'),
     cart: {list: [], total: 0.0},
-    purchaseHistory = [],
-    isAdmin = false
+    purchaseHistory : [],
+    isAdmin : false
   });
   res.render('login', {message: "Thank you for registering! Please login again to get started!"});
   return;
