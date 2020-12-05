@@ -39,7 +39,7 @@ router.get('/search', function(req,res,next){
     collection.find({title: {$regex: `^.*${req.query.title}.*$`, $options: 'i'}, category: {$regex: `^.*${req.query.category}.*$`, $options: 'i'}, "soft-delete": false}, function(err, games){
         if(err) throw err;
         let currentPage;
-        if(!req.query.currentPage)
+        if(!req.query.page)
             currentPage = 1;
         else
             currentPage = req.query.page;
