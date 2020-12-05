@@ -40,7 +40,7 @@ router.post('/', function(req,res,next){
         );
       });
       user.purchaseHistory.push({items: currentHistory, total: totalPrice});
-      collection.findOneAndUpdate({username: req.session.user}, {$set: {purchaseHistory: user.purchaseHistory}});
+      collection.findOneAndUpdate({username: req.session.user}, {$set: {purchaseHistory: user.purchaseHistory, cart: []}});
       res.render('thanks',{username: req.session.user});
     });
   });
