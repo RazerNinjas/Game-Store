@@ -10,6 +10,7 @@ var indexRouter = require('./routes/index');
 var gamesRouter = require('./routes/games');
 var checkoutRouter = require('./routes/checkout');
 var apiRouter = require('./routes/api');
+var cartRouter = require('./routes/cart');
 var session = require('express-session');
 
 var app = express();
@@ -30,6 +31,7 @@ app.use('/', indexRouter);
 app.use('/games', gamesRouter);
 app.use('/checkout',checkoutRouter);
 app.use('/api',apiRouter);
+app.use('/cart',cartRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

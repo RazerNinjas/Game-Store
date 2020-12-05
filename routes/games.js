@@ -25,10 +25,10 @@ router.get('/', function(req, res, next){
                 res.render("products", {title: "Products", isAdmin: true, games: result, username: req.session.user, nextPage: nextPage, previousPage: previousPage,currentPage: currentPage});
                 return;
             }
-            res.render("products", {title: "Products", games: games, username: req.session.user, nextPage: nextPage, previousPage: previousPage, currentPage: currentPage});
+            res.render("products", {title: "Products", games: result, username: req.session.user, nextPage: nextPage, previousPage: previousPage, currentPage: currentPage});
             return;
         }
-        res.render("products", {title: "Products", games: games, nextPage: nextPage, previousPage: previousPage, currentPage: currentPage});
+        res.render("products", {title: "Products", games: result, nextPage: nextPage, previousPage: previousPage, currentPage: currentPage});
     });
 });
 
@@ -93,7 +93,18 @@ router.get('/:id', function(req,res,next){
     let collection = db.get('games');
     collection.findOne({_id: req.params.id}, {partial: true}, function(err,game){
         if(err) throw err;
+        if(req.session.user)
+        {
+            if(req.session.isAdmin)
+            {
+                res.render('game', {title: `${game.title}`, game: game, username: req.session.user, isAdmin: true});
+                return;
+            }
+            res.render('game', {title: `${game.title}`, game: game, username: req.session.user, isAdmin: false});
+            
+        }
         res.render('game', {title: `${game.title}`, game: game});
+        
         
     })
 });
