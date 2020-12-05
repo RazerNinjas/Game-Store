@@ -1,0 +1,7 @@
+extends layout
+
+block content
+    div #{username}
+    form(id="checkout-form" class="form" action="/checkout" method="post")
+        div(class="form-group")
+        button(type="submit" class="btn btn-primary") Submit
