@@ -55,7 +55,7 @@ router.post('/register', function(req,res,next){
   collection.insert({
     username: req.body.username,
     password: crypto.createHash('sha256').update(req.body.password).digest('hex'),
-    cart = {list: [], total: 0.0},
+    cart: {list: [], total: 0.0},
     purchaseHistory = [],
     isAdmin = false
   });
