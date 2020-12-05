@@ -36,29 +36,29 @@ $(function(){
                 $("#password-empty").remove();
         }
 
-        console.log("test");
+        
+        let result;
         $.ajax({
+            async: false,
             method: "POST",
             url: "/api/exists",
             data: {"username" : $("#username").val()},
             success: function(data)
             {
-                console.log(data);
-                alert(data.result);
-                return false;
 
                 if(data.result)
                 {
                     $(`<div id="exist-user" class="error"> </div>`).appendTo('#register-box');
                     $('#exist-user').text("Username taken");
 
-                    return false;
+                    result = false;
                 }
                 else
-                    return true;
+                    result = true;
             }
 
         });
+        return result
 
     });
 
