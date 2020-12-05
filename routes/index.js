@@ -10,7 +10,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/login', function(req, res, next){
-  res.render('login', {title: 'Register'});
+  res.render('login', {title: 'Login'});
 });
 
 router.post('/login', function(req, res, next){
@@ -31,6 +31,7 @@ router.post('/login', function(req, res, next){
     res.redirect('/games');
     
   });
+});
 
 router.get('/logout', function(req, res, next){
   if(req.session){
@@ -42,15 +43,37 @@ router.get('/logout', function(req, res, next){
   
 })
 
-
-});
-
 router.get('/register', function(req, res ,next){
   res.render('register');
 });
 
 router.post('/register', function(req,res,next){
   return;
-})
+});
+
+router.get('/cart', function(req,res,next){
+  if(!req.session.user){
+    res.redirect('/login');
+  }
+  let collection = db.get('users');
+  collection.findOne({username: req.session.user}, function(err, user){
+    
+    res.render('cart',{username: req.session.user, cart: user.cart});
+  });
+  
+});
+
+router.get('/history', function(req,res,next){
+  if(!req.session.user){
+    res.redirect('/login');
+  }
+  let collection = db.get('users');
+  collection.findOne({username: req.session.user}, function(err, user){
+    
+    res.render('history',{username: req.session.user, history: user.purchaseHistory});
+  });
+});
+
+
 
 module.exports = router;
