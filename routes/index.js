@@ -83,6 +83,7 @@ router.get('/cart', function(req,res,next){
 router.get('/history', function(req,res,next){
   if(!req.session.user){
     res.redirect('/login');
+    return;
   }
   let collection = db.get('users');
   collection.findOne({username: req.session.user}, function(err, user){
@@ -91,6 +92,12 @@ router.get('/history', function(req,res,next){
   });
 });
 
-
+router.get('/thanks', function(req,res,next){
+  if(!req.session.user){
+    res.redirect('/login');
+    return;
+  }
+  res.render('thanks', {username: req.query.username});
+})
 
 module.exports = router;

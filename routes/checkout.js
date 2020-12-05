@@ -37,7 +37,7 @@ router.post('/', function(req,res,next){
       });
       user.purchaseHistory.unshift(user.cart);
       collection.findOneAndUpdate({username: req.session.user}, {$set: {purchaseHistory: user.purchaseHistory, cart: {list: [], total: 0.0}}});
-      res.render('thanks',{username: req.session.user});
+      res.redirect(`/thanks?username=${req.session.user}`,{username: req.session.user});
     });
   });
 
