@@ -10,6 +10,10 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/login', function(req, res, next){
+  if(req.query.register){
+    res.render('login', {title: 'Login', message: "Thank you for registering! Please login to begin!"});
+    return;
+  }
   res.render('login', {title: 'Login'});
 });
 
@@ -60,7 +64,7 @@ router.post('/register', function(req,res,next){
     purchaseHistory : [],
     isAdmin : false
   });
-  res.render('login', {message: "Thank you for registering! Please login again to get started!"});
+  res.redirect('/login?register=true');
   return;
 });
 
