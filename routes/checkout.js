@@ -3,7 +3,7 @@ var monk = require('monk');
 var router = express.Router();
 var db = monk('localhost:27017/boardgames');
 
-router.post('/checkout', function(req,res,next){
+router.post('/', function(req,res,next){
     if(!req.session.user){
       res.redirect('/login');
     }
