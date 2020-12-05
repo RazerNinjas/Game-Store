@@ -1,7 +1,11 @@
 $(function(){
     $("#register-form").submit(function(event){
-        
+
         event.preventDefault();
+
+        if ($("#exist-user").length)
+            $("#exist-user").remove();
+
         if($("#username").val().length !== 0 && $("#password").val().length !== 0)
         {
             if(validUsername($("#username").val()) && validPassword($("#password").val()))
@@ -15,21 +19,46 @@ $(function(){
                 $(`<div id="username-empty" class="error"> </div>`).appendTo('#form-username');
                 $('#username-empty').text("Username is required");
             }
+
+            return false;
         }
         else{
             if($("#username-empty").length)
                 $("#username-empty").remove();
+                
         }
         if($("#password").val().length === 0){
             if(!$("#password-empty").length){
                 $(`<div id="password-empty" class="error"> </div>`).appendTo('#form-password');
                 $('#password-empty').text("Password is required");
             }
+
+            return false;
         }
         else {
             if($("#password-empty").length)
                 $("#password-empty").remove();
         }
+
+        $.ajax({
+            method: "POST",
+            url: "/api/exists",
+            data: {"username" : $("#username").val()},
+            success: function(data)
+            {
+                if(data.result)
+                {
+                    $(`<div id="exist-user" class="error"> </div>`).appendTo('#register-box');
+                    $('#exist-user').text("Username taken");
+
+                    return false;
+                }
+                else
+                    return true;
+            }
+
+        });
+
     });
 
     $("#username").change(function(){
