@@ -24,7 +24,10 @@ router.post('/login', function(req, res, next){
   collection.findOne({username: req.body.username, password: hashPassword}, function(err,user){
     if(err) throw err;
     if(!user)
+    {
       res.render('login',{message: "Invalid Username or Password"});
+      return;
+    }
     req.session.user = user.username;
     if(user.isAdmin)
       req.session.isAdmin = true;
