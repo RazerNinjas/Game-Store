@@ -93,7 +93,7 @@ router.get('/:id', function(req,res,next){
     let collection = db.get('games');
     collection.findOne({_id: req.params.id}, {partial: true}, function(err,game){
         if(err) throw err;
-        res.render('game', {title: `${game.name}`, game: game});
+        res.render('game', {title: `${game.title}`, game: game});
         
     })
 });
