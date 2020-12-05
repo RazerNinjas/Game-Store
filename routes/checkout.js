@@ -33,20 +33,13 @@ router.post('/', async function(req,res,next){
             return;
         }
     }
-    console.log("END HERE");
-    console.log(approvedItems);
     for(approvedItem of approvedItems){
-        console.log("APPROVED ITEM");
-        console.log(approvedItem);
         let game = await games.findOne({_id: item.gameID});
-        console.log("GAME FOUND");
-        console.log(game);
         await games.findOneAndUpdate({_id: item.gameID},{$set: {quantity: game.quantity-item.quantity}});
     }
     user.purchaseHistory.unshift(user.cart);
-    console.log(user.purchaseHistory);
     collection.findOneAndUpdate({username: req.session.user}, {$set: {purchaseHistory: user.purchaseHistory, cart: {list: [], total: 0.0}}});
-    res.redirect(`/thanks?username=${req.session.user}`);
+    res.redirect(`/thanks`);
 
       });
 

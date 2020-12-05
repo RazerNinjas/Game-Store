@@ -29,7 +29,7 @@ router.post('/login', function(req, res, next){
     if(err) throw err;
     if(!user)
     {
-      res.render('login',{message: "Invalid Username or Password"});
+      res.render('login',{title: "Login", message: "Invalid Username or Password"});
       return;
     }
     req.session.user = user.username;
@@ -53,7 +53,7 @@ router.get('/logout', function(req, res, next){
 })
 
 router.get('/register', function(req, res ,next){
-  res.render('register');
+  res.render('register', {title: "Register"});
 });
 
 router.post('/register', function(req,res,next){
@@ -77,8 +77,12 @@ router.get('/cart', function(req,res,next){
   }
   let collection = db.get('users');
   collection.findOne({username: req.session.user}, function(err, user){
-    
-    res.render('cart',{username: req.session.user, cart: user.cart});
+    if(req.query.error)
+    {
+      res.render('cart',{title: "Cart",username: req.session.user, cart: user.cart, error: req.query.error});
+      return;
+    }
+    res.render('cart',{title: "Cart",username: req.session.user, cart: user.cart});
   });
   
 });
@@ -91,7 +95,7 @@ router.get('/history', function(req,res,next){
   let collection = db.get('users');
   collection.findOne({username: req.session.user}, function(err, user){
     
-    res.render('history',{username: req.session.user, history: user.purchaseHistory});
+    res.render('history',{title: "History", username: req.session.user, history: user.purchaseHistory});
   });
 });
 
@@ -100,7 +104,7 @@ router.get('/thanks', function(req,res,next){
     res.redirect('/login');
     return;
   }
-  res.render('thanks', {username: req.query.username});
+  res.render('thanks', {title: "Thank You", username: req.query.username});
 })
 
 module.exports = router;
