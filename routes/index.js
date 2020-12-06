@@ -96,7 +96,7 @@ router.get('/history', async function(req,res,next){
     }
     let previousPage = currentPage > 1;
     let nextPage = currentPage < purchaseHistory.length
-    res.render('cart',{title: "History", username: req.session.user, cart: user.purchaseHistory[currentPage-1], isAdmin: req.session.isAdmin, isHistory: true, previousPage: previousPage, nextPage: nextPage, images: imageList});
+    res.render('cart',{title: "History", username: req.session.user, cart: user.purchaseHistory[currentPage-1], isAdmin: req.session.isAdmin, isHistory: true, previousPage: previousPage, nextPage: nextPage, images: imageList, currentPage: currentPage});
   });
 });
 
