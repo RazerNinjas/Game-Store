@@ -22,6 +22,7 @@ router.post('/game', async function(req,res,next){
         return;
     }
     let games = db.get('games');
+    console.log(req.files);
     await games.insert({
         title: req.body.title,
         players: req.body.players,
