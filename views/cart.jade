@@ -1,7 +1,39 @@
 extends layout
 
+append stylesheets
+    link(rel="stylesheet", href="/stylesheets/cart.css")
+
 block content
-    div #{username}
-    form(id="checkout-form" class="form" action="/checkout" method="post")
-        div(class="form-group")
-        button(type="submit" class="btn btn-primary") Submit
+    div(class="container")
+        -if(typeof(error) !== 'undefined'){
+            p One of your item is out of stock
+        -}
+
+        div(class="heading")
+            h1 Shopping Cart
+        div(class="table")
+            div(class="layout-inline row th")
+                div(class="col col-pro") Product
+                div(class = "col col-price align-center") Price
+                div(class = "col col-qty align-center") QTY
+            div(class="layout-inline row")
+                - for(let i=0; i <cart.list.length; i++){
+                    div(class="col layout-inline")
+                        img(src=`/images/${images[i]}`)
+                        p #{cart.list[i].name}
+                    div(class="col col-price align-center")
+                        p #{cart.list[i].price}
+                    div(class="col col-qty layout-inline")
+                        p #{cart.list[i].quantity}
+                    a(href=`/cart/edit?${cart.list[i].gameID}` class="btn btn-primary" ) Edit
+                    form(action="/cart?_method=DELETE" method="POST")
+                        input(type="hidden" value=`${cart.list[i].gameID}`)
+                        button(type="submit" class="btn btn-danger") Remove item
+                -}
+            div(class="row layout-inline")
+                p Total Price: #{cart.total}
+        form(id="checkout-form" class="form" action="/checkout" method="post")
+            div(class="form-group")
+                button(type="submit" class="btn btn-primary") Submit
+
+    
