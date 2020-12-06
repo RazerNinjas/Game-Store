@@ -12,6 +12,7 @@ var gamesRouter = require('./routes/games');
 var checkoutRouter = require('./routes/checkout');
 var apiRouter = require('./routes/api');
 var cartRouter = require('./routes/cart');
+var adminRouter = require('./routes/admin');
 var session = require('express-session');
 
 var app = express();
@@ -34,6 +35,7 @@ app.use('/games', gamesRouter);
 app.use('/checkout',checkoutRouter);
 app.use('/api',apiRouter);
 app.use('/cart',cartRouter);
+app.use('/admin', adminRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

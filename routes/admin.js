@@ -23,3 +23,5 @@ router.get('/updateItem', async function(req,res,next){
     let game = await games.findOne({_id: req.query.id});
     res.render('updateItem', {title: "Update Item", game: game});    
 });
+
+module.exports = router;
