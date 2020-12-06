@@ -12,7 +12,7 @@ block content
                         form(id="login-form" class="form" action="/login" method="post")
                             h3(class="text-center text-info") Login
                             - if(typeof(message) !== 'undefined')
-                                div #{message}
+                                div(class="error") #{message}
                             div(class="form-group")
                                 label(for="username" class="text-info") Username: 
                                 br
@@ -23,7 +23,7 @@ block content
                                 input(type="password" name="password" id="password" class="form-control")
                             div(class="form-group")
                                 button(type="submit" class="btn btn-primary") Submit
-                            div(id="register-link" class="text-right")
-                                a(href="/register" class="text-info") Register here
+                        div(id="register-link")
+                            a(href="/register" class="text-info") Register here
                             
 
