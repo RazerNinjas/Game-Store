@@ -21,9 +21,9 @@ router.get('/', function(req,res,next){
   });
 
 
-// GIVEN id: <game-id>
+// GIVEN id: <game-id> quantity: <game-quantity>
 router.post('/', function(req,res,next){
-    if(req.session.user)
+    if(!req.session.user)
     {
         res.send(403);
         return;
@@ -34,18 +34,21 @@ router.post('/', function(req,res,next){
         games.findOne({_id: req.body.id}, function(err,game){
             if(user.cart.list.findIndex(obj => obj.gameID == req.body.id) > -1)
             {
-                user.cart.list[user.cart.list.findIndex(obj => obj.gameID == req.body.id)].quantity++;
+                user.cart.list[user.cart.list.findIndex(obj => obj.gameID == req.body.id)].quantity+= parseInt(req.body.quantity);
+                
 
             }
             else{
                 user.cart.list.push({
                     gameID: game._id,
-                    quantity: 1,
+                    quantity: req.body.quantity,
                     price: game.price,
                     name: game.title
                 });
+
             }
-            user.cart.total += game.price
+            user.cart.total += parseInt(req.body.quantity) * game.price;
+            
             collection.findOneAndUpdate({username: req.session.user}, {$set: {cart: user.cart}});
 
         })
