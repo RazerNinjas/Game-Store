@@ -76,7 +76,7 @@ router.get('/edit', function(req,res,next){
     collection.findOne({username: req.session.user}, function(err,user){
         games.findOne({_id: req.query.id}, function(err,game){
             item = user.cart.list[user.cart.list.findIndex(obj => obj.gameID == req.query.id)]
-            res.render('editCart', {title: "Edit Cart",  quantity:item.quantity, name: item.name, cover: game.cover, isAdmin: req.session.isAdmin});
+            res.render('editCart', {title: "Edit Cart",  quantity:item.quantity, stockQuantity: game.quantity, name: item.name, cover: game.cover, isAdmin: req.session.isAdmin});
         });
         
     })
