@@ -9,7 +9,7 @@ router.get('/addItem', function(req,res,next){
         res.send(403);
         return;
     }
-
+    console.log(req.session.isAdmin);
     res.render('addItem', {title: "Add Item", isAdmin: req.session.isAdmin});
 
 });
