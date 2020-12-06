@@ -40,6 +40,7 @@ router.post('/game', upload.fields([{name: 'coverImg'}, {name: 'boardImg'}]), as
         cover: req.files.coverImg[0].originalname,
         board: req.files.boardImg[0].originalname,
         price: parseFloat(req.body.price),
+        quantity: parseInt(req.body.quantity),
         "soft-delete": false
     });
     res.redirect('/games');
