@@ -73,8 +73,8 @@ block content
                         div(class="col col-pro") Product
                         div(class="col col-price align-center") Price
                         div(class="col col-qty align-center") QTY
-                    div(class="layout-inline row")
-                        - for(let i=0; i <cart.list.length; i++){
+                    - for(let i=0; i <cart.list.length; i++){
+                        div(class="layout-inline row")
                             div(class="col layout-inline")
                                 img(src=`/images/${images[i]}`)
                                 p #{cart.list[i].name}
@@ -89,7 +89,7 @@ block content
                                 input(type="hidden" name="id" value=`${cart.list[i].gameID}`)
                                 button(type="submit" class="btn btn-danger") Remove item
                             hr
-                        -}
+                    -}
                     div(class="row layout-inline")
                         p Total Price: #{cart.total.toFixed(2)}
                 form(id="checkout-form" class="form" action="/checkout" method="post")
