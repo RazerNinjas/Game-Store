@@ -34,7 +34,7 @@ router.post('/', async function(req,res,next){
         await games.findOneAndUpdate({_id: item.gameID},{$set: {quantity: game.quantity-item.quantity}});
     }
     let temp = new Date(Date.now());
-    const month = date.toLocaleString('default', { month: 'long' });
+    const month = temp.toLocaleString('default', { month: 'long' });
     user.cart.purchaseTime = `${month} ${temp.getDate()}, ${temp.getFullYear()} at ${temp.toLocaleTimeString()}`
     user.purchaseHistory.unshift(user.cart);
     collection.findOneAndUpdate({username: req.session.user}, {$set: {purchaseHistory: user.purchaseHistory, cart: {list: [], total: 0.0}}});

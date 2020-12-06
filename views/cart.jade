@@ -6,18 +6,22 @@ append stylesheets
 block content
     div(class="container")
     
-        - if(typeof(isHistory) !== 'undefined' && isHistory){
-            div(class="heading")
+        -if(typeof(isHistory) !== 'undefined' && isHistory){
+            -console.log(length)
+            -if(historyLength === 0){
+                p No purchases
+            -}
+            -else{
+                div(class="heading")
                 h1 Order #{historyLength - currentPage +1}
+                h1 Purchased On #{cart.purchaseTime}
                 div(class="table")
                     div(class="layout-inline row th")
                         div(class="col col-pro") Product
                         div(class="col col-price align-center") Price
                         div(class="col col-qty align-center") QTY
-                        div(class="col col-qty align-center")
-                        div(class="col col-qty align-center")
                     div(class="layout-inline row")
-                        - for(let i=0; i <cart.list.length; i++){
+                        -for(let i=0; i <cart.list.length; i++){
                             div(class="col layout-inline")
                                 img(src=`/images/${images[i]}`)
                                 p #{cart.list[i].name}
@@ -51,8 +55,9 @@ block content
                             a(href=`/history/?page=${currentPage-1}` class="btn btn-lg btn-primary") Previous Page
                         -}
                     -}
+            -}
         -}
-        - else{
+        -else{
             -if(typeof(error) !== 'undefined'){
             p One of your items is out of stock
         -}
@@ -68,8 +73,6 @@ block content
                         div(class="col col-pro") Product
                         div(class="col col-price align-center") Price
                         div(class="col col-qty align-center") QTY
-                        div(class="col col-qty align-center")
-                        div(class="col col-qty align-center")
                     div(class="layout-inline row")
                         - for(let i=0; i <cart.list.length; i++){
                             div(class="col layout-inline")

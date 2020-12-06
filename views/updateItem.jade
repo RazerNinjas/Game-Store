@@ -1,12 +1,49 @@
 extends layout
 
 block content
+
+    script.
+        var category = '#{game.category}'
+    script(src='/scripts/updateItem.js')
+
     div(class="container")
         div(class="jumbotron")
             h1 #{title}
-
+            p #{game.title}
+            p
+                img(src=`/images/${game.cover}`)
+    form(action="/api/game?_method=PUT" method="POST" enctype="multipart/form-data")
+        input(type="hidden" value=`${game._id}` name="id")
+        div(class="form-group")
+            label(for="title") Title
+            input(type="text" class="form-control" name="title" id="title" value=`${game.title}` required)
+        div(class="form-group")
+            label(for="players") Players
+            input(type="text" class="form-control" name="players" id="players" value=`${game.players}` required)
+        div(class="form-group")
+            label(for="category") Category
+            select(class="form-control" name="category" id="category" required)
+                option(value="Area Control") Area Control
+                option(value="Eurogame") Eurogame
+                option(value="Roll-and-move") Roll-and-move
+                option(value="Drafting") Drafting
+                option(value="Engine-building") Engine-building
+                option(value="Story Telling") Story Telling
+        div(class="form-group")
+            label(for="brand") Brand
+            input(type="text" class="form-control" name="brand" id="brand" value=`${game.brand}` required)
+        div(class="form-group")
+            label(for="coverImg") Cover image
+            input(type="file" class="form-control" name="coverImg" id="coverImg" accept="image/*")
+        div(class="form-group")
+            label(for="boardImg") Board image
+            input(type="file" class="form-control" name="boardImg" id="boardImg" accept="image/*")
+        div(class="form-group")
+            label(for="price") Price
+            input(type="text" class="form-control" name="price" id="price" value=`${game.price}` required)
+        div(class="form-group")
+            label(for="quantity") Quantity
+            input(type="text" class="form-control" name="quantity" id="quantity" value=`${game.quantity}` required)
+        button(type="submit" class="btn btn-primary") Edit Game
     
     
-    form(action="")
-        div(class="form-group col-md-3")
-            input(type="text" class="form-control" id="title" name="title")
