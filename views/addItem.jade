@@ -11,7 +11,13 @@ block content
                 input(type="text" class="form-control" name="players" id="players" required)
             div(class="form-group")
                 label(for="category") Category
-                input(type="text" class="form-control" name="category" id="category" required)
+                select(class="form-control" name="category" id="category" required)
+                    option(value="Area Control") Area Control
+                    option(value="Eurogame") Eurogame
+                    option(value="Roll-and-move") Roll-and-move
+                    option(value="Drafting") Drafting
+                    option(value="Engine-building") Engine-building
+                    option(value="Story Telling") Story Telling
             div(class="form-group")
                 label(for="brand") Brand
                 input(type="text" class="form-control" name="brand" id="brand" required)
