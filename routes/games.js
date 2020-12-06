@@ -66,7 +66,7 @@ router.get('/search', function(req,res,next){
         if(!req.query.page)
             currentPage = 1;
         else
-            currentPage = req.query.page;
+            currentPage = parseInt(req.query.page);
         let result = games.slice((currentPage-1)*3, currentPage*3);
         let nextPage = true;
         let previousPage = false;
