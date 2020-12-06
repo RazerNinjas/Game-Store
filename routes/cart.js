@@ -61,8 +61,13 @@ router.get('/edit', function(req,res,next){
         return;
       }
     let collection = db.get('users');
+    let games = db.get('games');
     collection.findOne({username: req.session.user}, function(err,user){
-        res.render('editCart', {title: "Edit Cart",  item: user.cart.list[user.cart.list.findIndex(obj => obj.gameID == req.body.id)]});
+        games.findOne({_id: req.body.id}, function(err,game){
+            item = user.cart.list[user.cart.list.findIndex(obj => obj.gameID == req.body.id)]
+            res.render('editCart', {title: "Edit Cart",  quantity:item.quantity, name: item.name, cover: game.cover });
+        });
+        
     })
     
 });
