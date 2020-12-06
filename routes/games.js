@@ -115,7 +115,7 @@ router.get('/search', function(req,res,next){
 
 router.get('/:id', function(req,res,next){
     let collection = db.get('games');
-    collection.findOne({_id: req.params.id}, {partial: true}, function(err,game){
+    collection.findOne({_id: req.params.id}, function(err,game){
         if(err) throw err;
         if(req.session.user)
         {
