@@ -20,21 +20,21 @@ block content
                         div(class="col col-pro") Product
                         div(class="col col-price align-center") Price
                         div(class="col col-qty align-center") QTY
-                        -for(let i=0; i <cart.list.length; i++){
-                            div(class="layout-inline row")
-                                div(class="col layout-inline")
-                                    img(src=`/images/${images[i]}`)
-                                    p #{cart.list[i].name}
-                                div(class="col col-price align-center")
-                                    p #{cart.list[i].price}
-                                div(class="col col-qty layout-inline")
-                                    p #{cart.list[i].quantity}
-                                form(action=`/cart/edit` method="GET")
-                                    input(type="hidden" name="id" value=`${cart.list[i].gameID}`)
-                                form(action="/cart?_method=DELETE" method="POST")
-                                    input(type="hidden" name="id" value=`${cart.list[i].gameID}`)
-                                hr
-                        -}
+                    -for(let i=0; i <cart.list.length; i++){
+                        div(class="layout-inline row")
+                            div(class="col layout-inline")
+                                img(src=`/images/${images[i]}`)
+                                p #{cart.list[i].name}
+                            div(class="col col-price align-center")
+                                p #{cart.list[i].price}
+                            div(class="col col-qty layout-inline")
+                                p #{cart.list[i].quantity}
+                            form(action=`/cart/edit` method="GET")
+                                input(type="hidden" name="id" value=`${cart.list[i].gameID}`)
+                            form(action="/cart?_method=DELETE" method="POST")
+                                input(type="hidden" name="id" value=`${cart.list[i].gameID}`)
+                            hr
+                    -}
                     div(class="row layout-inline")
                         p Total Price: #{cart.total.toFixed(2)}
                 div(class="row justify-content-between")
