@@ -95,7 +95,7 @@ router.get('/history', async function(req,res,next){
       imageList.push(game.cover);
     }
     let previousPage = currentPage > 1;
-    let nextPage = currentPage < purchaseHistory.length
+    let nextPage = currentPage < user.purchaseHistory.length
     res.render('cart',{title: "History", username: req.session.user, historyLength: purchaseHistory.length, cart: user.purchaseHistory[currentPage-1], isAdmin: req.session.isAdmin, isHistory: true, previousPage: previousPage, nextPage: nextPage, images: imageList, currentPage: currentPage});
   });
 });
