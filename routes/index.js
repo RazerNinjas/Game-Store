@@ -11,10 +11,10 @@ router.get('/', function(req, res, next) {
 
 router.get('/login', function(req, res, next){
   if(req.query.register){
-    res.render('login', {title: 'Login', message: "Thank you for registering! Please login to begin!"});
+    res.render('login', {title: 'Login', message: "Thank you for registering! Please login to begin!", isAdmin: false});
     return;
   }
-  res.render('login', {title: 'Login'});
+  res.render('login', {title: 'Login', isAdmin: false});
 });
 
 router.post('/login', function(req, res, next){
@@ -29,7 +29,7 @@ router.post('/login', function(req, res, next){
     if(err) throw err;
     if(!user)
     {
-      res.render('login',{title: "Login", message: "Invalid Username or Password"});
+      res.render('login',{title: "Login", message: "Invalid Username or Password", isAdmin: false});
       return;
     }
     req.session.user = user.username;
@@ -53,7 +53,7 @@ router.get('/logout', function(req, res, next){
 })
 
 router.get('/register', function(req, res ,next){
-  res.render('register', {title: "Register"});
+  res.render('register', {title: "Register", isAdmin: false});
 });
 
 router.post('/register', function(req,res,next){
@@ -81,7 +81,7 @@ router.get('/history', function(req,res,next){
   let collection = db.get('users');
   collection.findOne({username: req.session.user}, function(err, user){
     
-    res.render('history',{title: "History", username: req.session.user, history: user.purchaseHistory});
+    res.render('history',{title: "History", username: req.session.user, history: user.purchaseHistory, isAdmin: req.session.isAdmin});
   });
 });
 
@@ -90,7 +90,7 @@ router.get('/thanks', function(req,res,next){
     res.redirect('/login');
     return;
   }
-  res.render('thanks', {title: "Thank You", username: req.query.username});
+  res.render('thanks', {title: "Thank You", username: req.query.username, isAdmin: req.session.isAdmin});
 })
 
 module.exports = router;

@@ -12,10 +12,10 @@ router.get('/', function(req,res,next){
     collection.findOne({username: req.session.user}, function(err, user){
       if(req.query.error)
       {
-        res.render('cart',{title: "Cart",username: req.session.user, cart: user.cart, error: req.query.error});
+        res.render('cart',{title: "Cart",username: req.session.user, cart: user.cart, error: req.query.error, isAdmin: req.session.isAdmin});
         return;
       }
-      res.render('cart',{title: "Cart",username: req.session.user, cart: user.cart});
+      res.render('cart',{title: "Cart",username: req.session.user, cart: user.cart, isAdmin: req.session.isAdmin});
     });
     
   });
@@ -65,7 +65,7 @@ router.get('/edit', function(req,res,next){
     collection.findOne({username: req.session.user}, function(err,user){
         games.findOne({_id: req.body.id}, function(err,game){
             item = user.cart.list[user.cart.list.findIndex(obj => obj.gameID == req.body.id)]
-            res.render('editCart', {title: "Edit Cart",  quantity:item.quantity, name: item.name, cover: game.cover });
+            res.render('editCart', {title: "Edit Cart",  quantity:item.quantity, name: item.name, cover: game.cover, isAdmin: req.session.isAdmin});
         });
         
     })
