@@ -85,7 +85,7 @@ router.get('/history', async function(req,res,next){
   collection.findOne({username: req.session.user}, async function(err, user){
     if(currentPage > user.purchaseHistory.length || currentPage < 1)
       {
-        res.send(404);
+        res.render('cart',{title: "History", username: req.session.user, historyLength: 0, isAdmin: req.session.isAdmin, isHistory: true, previousPage: false, nextPage: false, images: [], currentPage: currentPage});
         return;
       }
     let imageList = [];
