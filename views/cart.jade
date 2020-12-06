@@ -73,6 +73,7 @@ block content
                         div(class="col col-pro") Product
                         div(class="col col-price align-center") Price
                         div(class="col col-qty align-center") QTY
+                        div(class="col align-center")
                     - for(let i=0; i <cart.list.length; i++){
                         div(class="layout-inline row")
                             div(class="col layout-inline")
@@ -82,12 +83,13 @@ block content
                                 p #{cart.list[i].price}
                             div(class="col col-qty layout-inline")
                                 p #{cart.list[i].quantity}
-                            form(action=`/cart/edit` method="GET")
-                                input(type="hidden" name="id" value=`${cart.list[i].gameID}`)
-                                button(type="submit" class="btn btn-primary" ) Edit
-                            form(action="/cart?_method=DELETE" method="POST")
-                                input(type="hidden" name="id" value=`${cart.list[i].gameID}`)
-                                button(type="submit" class="btn btn-danger") Remove item
+                            div(class="col layout-inline")
+                                form(action=`/cart/edit` method="GET")
+                                    input(type="hidden" name="id" value=`${cart.list[i].gameID}`)
+                                    button(type="submit" class="btn btn-primary" ) Edit
+                                form(action="/cart?_method=DELETE" method="POST")
+                                    input(type="hidden" name="id" value=`${cart.list[i].gameID}`)
+                                    button(type="submit" class="btn btn-danger") Remove item
                             hr
                     -}
                     div(class="row layout-inline")
