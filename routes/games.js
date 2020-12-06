@@ -136,10 +136,4 @@ router.get('/:id', function(req,res,next){
 
 
 
-
-router.post('/', function(req,res,next){
-    let collection = db.get('games');
-    
-})
-
 module.exports = router;
