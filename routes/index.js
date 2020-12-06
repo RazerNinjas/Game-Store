@@ -82,7 +82,7 @@ router.get('/history', async function(req,res,next){
   let currentPage = 1;
   if(req.query.page)
     currentPage = parseInt(req.query.page);
-  collection.findOne({username: req.session.user}, function(err, user){
+  collection.findOne({username: req.session.user}, async function(err, user){
     if(currentPage > user.purchaseHistory.length || currentPage < 1)
       {
         res.send(404);
