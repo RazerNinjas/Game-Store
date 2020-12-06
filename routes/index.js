@@ -79,9 +79,18 @@ router.get('/history', function(req,res,next){
     return;
   }
   let collection = db.get('users');
+  let currentPage = 1;
+  if(req.query.page)
+    currentPage = parseInt(req.query.page);
   collection.findOne({username: req.session.user}, function(err, user){
-    
-    res.render('history',{title: "History", username: req.session.user, history: user.purchaseHistory, isAdmin: req.session.isAdmin});
+    if(currentPage > purchaseHistory.length)
+      {
+        res.send(404);
+        return;
+      }
+    let previousPage = currentPage > 1;
+    let nextPage = currentPage < purchaseHistory.length
+    res.render('history',{title: "History", username: req.session.user, cart: user.purchaseHistory[currentPage-1], isAdmin: req.session.isAdmin, isHistory: true, previousPage: previousPage, nextPage: nextPage});
   });
 });
 
