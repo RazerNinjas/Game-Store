@@ -3,6 +3,30 @@ var monk = require('monk');
 var router = express.Router();
 var db = monk('localhost:27017/boardgames');
 
+router.get('/all', function(req,res,next){
+    if(!req.session.isAdmin)
+    {
+        res.redirect('/');
+    }
+    let collection = db.get('games');
+    collection.find({"soft-delete": false},function(err,games){
+        if(err) throw err;
+        let currentPage;
+        if(!req.query.page)
+            currentPage = 1;
+        else
+            currentPage = parseInt(req.query.page);
+        let result = games.slice((currentPage-1)*3, currentPage*3);
+        let nextPage = true;
+        let previousPage = false;
+        if(currentPage*3 > games.length)
+            nextPage = false;
+        if(currentPage > 1)
+            previousPage = true;
+        res.render("products", {title: "All Products", isAdmin: true, isAll: true, games: result, username: req.session.user, nextPage: nextPage, previousPage: previousPage,currentPage: currentPage});
+    });
+
+})
 
 router.get('/', function(req, res, next){
     let collection = db.get('games');
