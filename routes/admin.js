@@ -10,7 +10,7 @@ router.get('/addItem', function(req,res,next){
         return;
     }
 
-    res.render('addItem', {title: "Add Item"});
+    res.render('addItem', {title: "Add Item", isAdmin: req.session.isAdmin});
 
 });
 
@@ -21,7 +21,7 @@ router.get('/updateItem', async function(req,res,next){
     }
     let games = db.get('games');
     let game = await games.findOne({_id: req.query.id});
-    res.render('updateItem', {title: "Update Item", game: game});    
+    res.render('updateItem', {title: "Update Item", game: game, isAdmin: req.session.isAdmin});    
 });
 
 module.exports = router;
