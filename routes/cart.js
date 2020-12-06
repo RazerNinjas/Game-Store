@@ -3,20 +3,25 @@ var monk = require('monk');
 var router = express.Router();
 var db = monk('localhost:27017/boardgames');
 
-router.get('/', function(req,res,next){
+router.get('/', async function(req,res,next){
     if(!req.session.user){
       res.redirect('/login');
       return;
     }
     let collection = db.get('users');
-    collection.findOne({username: req.session.user}, function(err, user){
-      if(req.query.error)
-      {
-        res.render('cart',{title: "Cart",username: req.session.user, cart: user.cart, error: req.query.error, isAdmin: req.session.isAdmin});
-        return;
-      }
-      res.render('cart',{title: "Cart",username: req.session.user, cart: user.cart, isAdmin: req.session.isAdmin});
-    });
+    let games = db.get('games');
+    let user = await collection.findOne({username: req.session.user});
+    let imageList = [];
+    for(item of user.cart.list){
+        let game = await games.findOne({_id: item.gameID});
+        imageList.push(game.cover);
+    }
+    if(req.query.error)
+    {
+      res.render('cart',{title: "Cart",username: req.session.user, cart: user.cart, error: req.query.error, isAdmin: req.session.isAdmin, images: imageList});
+      return;
+    }
+    res.render('cart',{title: "Cart",username: req.session.user, cart: user.cart, isAdmin: req.session.isAdmin, images: imageList});
     
   });
 
