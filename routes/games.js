@@ -9,7 +9,7 @@ router.get('/all', function(req,res,next){
         res.redirect('/');
     }
     let collection = db.get('games');
-    collection.find({"soft-delete": false},function(err,games){
+    collection.find({},function(err,games){
         if(err) throw err;
         let currentPage;
         if(!req.query.page)
