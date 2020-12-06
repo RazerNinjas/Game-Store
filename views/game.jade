@@ -4,9 +4,22 @@ block content
     div(class="container")
         h1 Game Information
         p
-            img(src=`/images/#{game.board-img}` alt=`#{game.board-img}`)
+            img(src=`/images/${game.board}` alt=`game-board-image`)
         p Title: #{game.title}
         p Players: #{game.title}
         p Category: #{game.category}
         p Brand: #{game.brand}
         p Price: #{game.price}
+
+        -if(typeof(isAdmin) !== 'undefined' && isAdmin){
+            a(class="btn btn-primary" href=`/admin/updateItem?id=${game._id}` role="button") Update
+            br
+            br
+            br
+            form
+                div(class="form-group" action=`/api/game/` method="GET")
+                    input(type="hidden" id="id" name="id" value=`${game._id}`)
+                    button(type="submit" class="btn btn-danger") Delete
+        -}
+
+        

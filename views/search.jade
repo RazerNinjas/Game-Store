@@ -29,7 +29,7 @@ block content
                 div(class="col-4")
                     img(src="/images/#{game.cover}" style="width:200px; height:200px;" class="img-thumbnail")
                     div(class="caption")
-                        a(href=`/game/${game._id}`) #{game.title}
+                        a(href=`/games/${game._id}`) #{game.title}
                     div(class="caption")
                         p $#{game.price}
             - })
@@ -48,7 +48,7 @@ block content
                         - console.log(category)
                         - console.log(searchTerm)
                         - console.log(2)
-                        a(href=`/games/search?page=${currentPage+1}&category=${category}` class="btn btn-lg btn-primary") Next Page
+                        a(href=`/games/search?page=${currentPage+1}&category=${category}&title=${searchTerm}` class="btn btn-lg btn-primary") Next Page
                     -}
                 -}
                 -else{
@@ -62,7 +62,7 @@ block content
                         - console.log(category)
                         - console.log(searchTerm)
                         - console.log(4)
-                        a(href=`/games/search?page=${currentPage+1}` class="btn btn-lg btn-primary") Next Page
+                        a(href=`/games/search?page=${currentPage+1}&title=${searchTerm}` class="btn btn-lg btn-primary") Next Page
                     -}
                 -}
             -}
@@ -72,15 +72,15 @@ block content
                         a(href=`/games/search?page=${currentPage-1}&category=${category}&title=${searchTerm}` class="btn btn-lg btn-primary") Previous Page
                     -}
                     -else{
-                        a(href=`/games/search?page=${currentPage-1}&category=${category}` class="btn btn-lg btn-primary") Previous Page
+                        a(href=`/games/search?page=${currentPage-1}&category=${category}&title=${searchTerm}` class="btn btn-lg btn-primary") Previous Page
                     -}
                 -}
                 -else{
                     -if (searchTerm !== ""){
-                        a(href=`/games/search?page=${currentPage-1}&title=${searchTerm}` class="btn btn-lg btn-primary") Previous Page
+                        a(href=`/games/search?page=${currentPage-1}&title=${searchTerm}&title=${searchTerm}` class="btn btn-lg btn-primary") Previous Page
                     -}
                     -else{
-                        a(href=`/games/search?page=${currentPage-1}` class="btn btn-lg btn-primary") Previous Page
+                        a(href=`/games/search?page=${currentPage-1}&title=${searchTerm}` class="btn btn-lg btn-primary") Previous Page
                     -}
                 -}
             -}
