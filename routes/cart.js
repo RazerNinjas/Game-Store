@@ -115,12 +115,14 @@ router.delete('/', function(req, res, next){
     }
     let collection = db.get('users');
     collection.findOne({username: req.session.user}, function(err,user){
-        console.log("ID SENT");
-        console.log(req.body.id);
-        console.log("INDEX FOUND");
-        console.log(user.cart.list.findIndex(obj => obj.gameID == req.body.id));
-        user.cart.total -= user.cart.list[user.cart.list.findIndex(obj => obj.gameID == req.body.id)].quantity * user.cart.list[user.cart.list.findIndex(obj => obj.gameID == req.body.id)].price;
+        // console.log("ID SENT");
+        // console.log(req.body.id);
+        // console.log("INDEX FOUND");
+        // console.log(user.cart.list.findIndex(obj => obj.gameID == req.body.id));
+        let deleteIndex = user.cart.list.findIndex(obj => obj.gameID == req.body.id);
+        user.cart.total = user.cart.total - user.cart.list[deleteIndex].quantity * user.cart.list[deleteIndex].price;
         user.cart.list.splice(user.cart.list.findIndex(obj => obj.gameID == req.body.id),1);
+        collection.findOneAndUpdate({username: req.session.user}, {$set: {cart: user.cart}});
         res.redirect('/cart');
     })
     
