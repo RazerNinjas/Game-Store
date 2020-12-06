@@ -41,15 +41,18 @@ router.post('/', function(req,res,next){
             else{
                 user.cart.list.push({
                     gameID: game._id,
-                    quantity: req.body.quantity,
+                    quantity: parseInt(req.body.quantity),
                     price: game.price,
                     name: game.title
                 });
 
             }
+
             user.cart.total += parseInt(req.body.quantity) * game.price;
             
             collection.findOneAndUpdate({username: req.session.user}, {$set: {cart: user.cart}});
+            res.redirect('/cart')
+            
 
         })
 
