@@ -63,8 +63,8 @@ router.put('/game', upload.fields([{name: 'coverImg'}, {name: 'boardImg'}]), asy
         category: req.body.category,
         brand: req.body.brand,
         quantity: req.body.quantity,
-        cover: (!req.files || !req.files.coverImg || !req.files.coverImg.length == 0)? game.cover : req.files.coverImg[0].originalname,
-        board: (!req.files || !req.files.boardImg || !req.files.boardImg.length == 0)? game.board : req.files.boardImg[0].originalname,
+        cover: (!req.files || !req.files.coverImg || req.files.coverImg.length == 0)? game.cover : req.files.coverImg[0].originalname,
+        board: (!req.files || !req.files.boardImg || req.files.boardImg.length == 0)? game.board : req.files.boardImg[0].originalname,
         price: parseFloat(req.body.price),
         "soft-delete": (req.body["soft-delete"] == "true"),
 
