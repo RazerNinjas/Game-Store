@@ -26,15 +26,21 @@ html
             button(class="btn btn-outline-success my-2 my-sm-0" type="submit") Search
           div(class="navbar-nav")
             - if (typeof(username) === 'undefined')
-                a(class="nav-item nav-link mx-5" href="/games") Products
-                a(class="nav-item nav-link mx-5" href="/login") Login
-                a(class="nav-item nav-link mx-5" href="/register") Register
+                a(class="nav-item nav-link mx-3" href="/games") Products
+                a(class="nav-item nav-link mx-3" href="/login") Login
+                a(class="nav-item nav-link mx-3" href="/register") Register
             - else
                 span(class="navbar-text") Hello, #{username}
-                a(class="nav-item nav-link mx-5" href="/games") Products
-                a(class="nav-item nav-link mx-5" href="/cart")
+                a(class="nav-item nav-link mx-3" href="/games") Products
+                a(class="nav-item nav-link mx-3" href="/cart")
                   i(class="fas fa-shopping-cart") Cart
-                a(class="nav-item nav-link mx-5" href="#") Purchase History
-                a(class="nav-item nav-link mx-5" href="/logout") Logout
+                a(class="nav-item nav-link mx-3" href="#") Purchase History
+                -if(typeof(isAdmin) !== 'undefined' && isAdmin) {
+                  a(class="nav-item nav-link mx-3" href="/admin/addItem") Add Game
+                  a(class="nav-item nav-link mx-3" href="/games/all") All Games
+                -}
+                
+                a(class="nav-item nav-link mx-3" href="/logout") Logout
+
       
     block content

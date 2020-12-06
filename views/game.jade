@@ -10,16 +10,29 @@ block content
         p Category: #{game.category}
         p Brand: #{game.brand}
         p Price: #{game.price}
+        - if(game.quantity > 0){
+            p Only #{game.quantity} left
+        -}
+        - else{
+            p Out of Stock
+        -}
 
         -if(typeof(isAdmin) !== 'undefined' && isAdmin){
             a(class="btn btn-primary" href=`/admin/updateItem?id=${game._id}` role="button") Update
-            br
-            br
-            br
-            form
-                div(class="form-group" action=`/api/game/` method="GET")
+            form(action=`/api/game/?_method=DELETE` method="POST")
+                div(class="form-group")
                     input(type="hidden" id="id" name="id" value=`${game._id}`)
                     button(type="submit" class="btn btn-danger") Delete
+        -}
+
+        -if(typeof(username) !== 'undefined' && game.quantity > 0){
+            form(action='/cart' method="POST")
+                div(class="form-group")
+                    input(type="hidden" id="id" name="id" value=`${game._id}`)
+                    select(name="quantity")
+                        - for(let i=1; i<= game.quantity; i++)
+                            option(value=`${i}`) #{i}
+                    button(type="submit" class="btn btn-primary") Add to Cart
         -}
 
         

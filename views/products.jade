@@ -22,18 +22,18 @@ block content
         div(class="row justify-content-between")
             -if(nextPage && previousPage){
                 div(class="col-4")
-                    a(href=`/games?page=${currentPage-1}` class="btn btn-lg btn-primary") Previous Page
+                    a(href=`/${(typeof(isAll) !== 'undefined' && isAll)?'games/all':'games'}?page=${currentPage-1}` class="btn btn-lg btn-primary") Previous Page
                 div(class="col-4")
-                    a(href=`/games?page=${currentPage+1}` class="btn btn-lg btn-primary") Next Page
+                    a(href=`/${(typeof(isAll) !== 'undefined' && isAll)?'games/all':'games'}?page=${currentPage+1}` class="btn btn-lg btn-primary") Next Page
             -}
             -else{
                 - if(nextPage){
                     div(class="col-md-4 offset-8")
-                        a(href=`/games?page=${currentPage+1}` class="btn btn-lg btn-primary") Next Page
+                        a(href=`/${(typeof(isAll) !== 'undefined' && isAll)?'games/all':'games'}?page=${currentPage+1}` class="btn btn-lg btn-primary") Next Page
 
                 -}
                 - if(previousPage){
                     div(class="col-4")
-                        a(href=`/games?page=${currentPage-1}` class="btn btn-lg btn-primary") Previous Page
+                        a(href=`/${(typeof(isAll) !== 'undefined' && isAll)?'games/all':'games'}?page=${currentPage-1}` class="btn btn-lg btn-primary") Previous Page
                 -}
             -}
