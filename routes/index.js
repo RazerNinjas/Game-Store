@@ -73,7 +73,7 @@ router.post('/register', function(req,res,next){
 
 
 
-router.get('/history', function(req,res,next){
+router.get('/history', async function(req,res,next){
   if(!req.session.user){
     res.redirect('/login');
     return;
@@ -83,14 +83,20 @@ router.get('/history', function(req,res,next){
   if(req.query.page)
     currentPage = parseInt(req.query.page);
   collection.findOne({username: req.session.user}, function(err, user){
-    if(currentPage > purchaseHistory.length)
+    if(currentPage > user.purchaseHistory.length || currentPage < 1)
       {
         res.send(404);
         return;
       }
+    let imageList = [];
+    let games = db.get('games');
+    for( item of user.purchaseHistory[currentPage-1].list){
+      let game = await games.findOne({_id: item.gameID});
+      imageList.push(game.cover);
+    }
     let previousPage = currentPage > 1;
     let nextPage = currentPage < purchaseHistory.length
-    res.render('cart',{title: "History", username: req.session.user, cart: user.purchaseHistory[currentPage-1], isAdmin: req.session.isAdmin, isHistory: true, previousPage: previousPage, nextPage: nextPage});
+    res.render('cart',{title: "History", username: req.session.user, cart: user.purchaseHistory[currentPage-1], isAdmin: req.session.isAdmin, isHistory: true, previousPage: previousPage, nextPage: nextPage, images: imageList});
   });
 });
 
