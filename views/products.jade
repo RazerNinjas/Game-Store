@@ -1,11 +1,39 @@
 extends layout
 
+append stylesheets
+    link(rel="stylesheet", src="/stylesheets/products.css")
+
 block content
-    block content
+    div(class="jumbotron")
+        h1(class="display-4") Board Game Central
+        p(class="lead") Game collections
+
     div(class="container")
         div(class="row")
-            //- - console.log(games)
             - games.forEach(function(game){
-                div(class="sm-col-3")
-                    p #{game.title}
+                div(class="col-4")
+                    img(src="/images/#{game.cover}" style="width:200px; height:200px;" class="img-thumbnail")
+                    div(class="caption")
+                        a(href=`/games/${game._id}`) #{game.title}
+                    div(class="caption")
+                        p $#{game.price}
             - })
+
+        div(class="row justify-content-between")
+            -if(nextPage && previousPage){
+                div(class="col-4")
+                    a(href=`/games?page=${currentPage-1}` class="btn btn-lg btn-primary") Previous Page
+                div(class="col-4")
+                    a(href=`/games?page=${currentPage+1}` class="btn btn-lg btn-primary") Next Page
+            -}
+            -else{
+                - if(nextPage){
+                    div(class="col-md-4 offset-8")
+                        a(href=`/games?page=${currentPage+1}` class="btn btn-lg btn-primary") Next Page
+
+                -}
+                - if(previousPage){
+                    div(class="col-4")
+                        a(href=`/games?page=${currentPage-1}` class="btn btn-lg btn-primary") Previous Page
+                -}
+            -}

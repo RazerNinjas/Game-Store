@@ -19,7 +19,7 @@ router.get('/all', function(req,res,next){
         let result = games.slice((currentPage-1)*3, currentPage*3);
         let nextPage = true;
         let previousPage = false;
-        if(currentPage*3 > games.length)
+        if(currentPage*3 >= games.length)
             nextPage = false;
         if(currentPage > 1)
             previousPage = true;
@@ -40,7 +40,7 @@ router.get('/', function(req, res, next){
         let result = games.slice((currentPage-1)*3, currentPage*3);
         let nextPage = true;
         let previousPage = false;
-        if(currentPage*3 > games.length)
+        if(currentPage*3 >= games.length)
             nextPage = false;
         if(currentPage > 1)
             previousPage = true;
@@ -70,7 +70,7 @@ router.get('/search', function(req,res,next){
         let result = games.slice((currentPage-1)*3, currentPage*3);
         let nextPage = true;
         let previousPage = false;
-        if(currentPage*3 > games.length)
+        if(currentPage*3 >= games.length)
             nextPage = false;
         if(currentPage > 1)
             previousPage = true;

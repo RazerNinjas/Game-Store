@@ -1,15 +1,86 @@
 extends layout
 
+append stylesheets
+    link(rel="stylesheet", src="/stylesheets/products.css")
+
 block content
+    
+    -if (typeof(category) !== 'undefined'){
+        - console.log(category)
+        - console.log(searchTerm)
+        script.
+            var category = '#{category}'
+            var search = '#{searchTerm}'
+        script(src='/scripts/search.js')
+    -}
+    - else{
+        script.
+            var search = '#{searchterm}'
+        script(src='/scripts/search.js')
+    -}
+
+    div(class="jumbotron")
+        h1(class="display-4") Board Game Central
+        p(class="lead") Game collections
+
     div(class="container")
         div(class="row")
-            //- - console.log(games)
             - games.forEach(function(game){
-                div(class="sm-col-3")
-                    img(src="/images/" + #{game.board-img})
-                    p #{game.title}
-                    p #{game.players}
-                    p #{game.category} 
-                    p #{game.brand} 
-                    p #{game.price}
+                div(class="col-4")
+                    img(src="/images/#{game.cover}" style="width:200px; height:200px;" class="img-thumbnail")
+                    div(class="caption")
+                        a(href=`/game/${game._id}`) #{game.title}
+                    div(class="caption")
+                        p $#{game.price}
             - })
+
+        div(class="row")
+            -if(nextPage){
+                -if (typeof(category) !== 'undefined'){
+                    -if (searchTerm !== ""){
+                        - console.log(category)
+                        - console.log(searchTerm)
+                        - console.log(currentPage)
+                        - console.log(1)
+                        a(href=`/games/search?page=${currentPage+1}&category=${category}&title=${searchTerm}` class="btn btn-lg btn-primary") Next Page
+                    -}
+                    -else{
+                        - console.log(category)
+                        - console.log(searchTerm)
+                        - console.log(2)
+                        a(href=`/games/search?page=${currentPage+1}&category=${category}` class="btn btn-lg btn-primary") Next Page
+                    -}
+                -}
+                -else{
+                    -if (searchTerm !== ""){
+                        - console.log(category)
+                        - console.log(searchTerm)
+                        - console.log(3)
+                        a(href=`/games/search?page=${currentPage+1}&title=${searchTerm}` class="btn btn-lg btn-primary") Next Page
+                    -}
+                    -else{
+                        - console.log(category)
+                        - console.log(searchTerm)
+                        - console.log(4)
+                        a(href=`/games/search?page=${currentPage+1}` class="btn btn-lg btn-primary") Next Page
+                    -}
+                -}
+            -}
+            -if(previousPage){
+                -if (typeof(category) !== 'undefined'){
+                    -if (searchTerm !== ""){
+                        a(href=`/games/search?page=${currentPage-1}&category=${category}&title=${searchTerm}` class="btn btn-lg btn-primary") Previous Page
+                    -}
+                    -else{
+                        a(href=`/games/search?page=${currentPage-1}&category=${category}` class="btn btn-lg btn-primary") Previous Page
+                    -}
+                -}
+                -else{
+                    -if (searchTerm !== ""){
+                        a(href=`/games/search?page=${currentPage-1}&title=${searchTerm}` class="btn btn-lg btn-primary") Previous Page
+                    -}
+                    -else{
+                        a(href=`/games/search?page=${currentPage-1}` class="btn btn-lg btn-primary") Previous Page
+                    -}
+                -}
+            -}
