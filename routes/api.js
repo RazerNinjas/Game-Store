@@ -2,6 +2,16 @@ var express = require('express');
 var monk = require('monk');
 var router = express.Router();
 var db = monk('localhost:27017/boardgames');
+var multer = require('multer');
+var storage = multer.diskStorage({
+    destination: function(req,file,cb){
+        cb(null, 'public/images/');
+    },
+    filename: function(req,file,cb){
+        cb(null, file.originalname);
+    }
+});
+var upload = multer({ storage: storage});
 
 router.post('/exists', function(req,res,next){
     let collection = db.get('users');
@@ -15,33 +25,30 @@ router.post('/exists', function(req,res,next){
     })
 });
 
-router.post('/game', async function(req,res,next){
+router.post('/game', upload.fields([{name: 'coverImg'}, {name: 'boardImg'}]), async function(req,res,next){
     if(!req.session.isAdmin)
     {
         res.send(403);
         return;
     }
     let games = db.get('games');
-    console.log(req.files);
     await games.insert({
         title: req.body.title,
         players: req.body.players,
         category: req.body.category,
         brand: req.body.brand,
-        cover: req.files.coverImg.name,
-        board: req.files.boardImg.name,
+        cover: req.files.coverImg[0].originalname,
+        board: req.files.boardImg[0].originalname,
         price: parseFloat(req.body.price),
-        "set-delete": false
+        "soft-delete": false
     });
-    await req.files.coverImg.mv(`/public/images/${req.files.coverImg.name}`);
-    await req.files.boardImg.mv(`/public/images/${req.files.boardImg.name}`);
     res.redirect('/games');
 
 });
 
 
 // game id
-router.put('/game', async function(req,res,next){
+router.put('/game', upload.fields([{name: 'coverImg'}, {name: 'boardImg'}]), async function(req,res,next){
     if(!req.session.isAdmin)
     {
         res.send(403);
@@ -54,18 +61,12 @@ router.put('/game', async function(req,res,next){
         players: req.body.players,
         category: req.body.category,
         brand: req.body.brand,
-        cover: (!req.files || !req.files.coverImg)? game.cover : req.files.coverImg.name,
-        board: (!req.files || !req.files.boardImg)? game.board : req.files.boardImg.name,
+        cover: (!req.files || !req.files.coverImg || !req.files.coverImg.length == 0)? game.cover : req.files.coverImg[0].originalname,
+        board: (!req.files || !req.files.boardImg || !req.files.boardImg.length == 0)? game.board : req.files.boardImg[0].originalname,
         price: parseFloat(req.body.price),
-        "set-delete": (req.body["set-delete"] == "true"),
+        "soft-delete": (req.body["soft-delete"] == "true"),
 
     }});
-    if(req.files && req.files.coverImg){
-        await req.files.coverImg.mv(`/public/images/${req.files.coverImg.name}`);
-    }
-    if(req.files && req.files.boardImg){
-        await req.files.boardImg.mv(`/public/images/${req.files.boardImg.name}`);
-    }
     res.redirect('/games'); 
     
 });

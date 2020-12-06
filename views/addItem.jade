@@ -2,7 +2,7 @@ extends layout
 
 block content
     div(class="container")
-        form(action="/api/game" method="POST")
+        form(action="/api/game" method="POST" enctype="multipart/form-data")
             div(class="form-group")
                 label(for="title") Title
                 input(type="text" class="form-control" name="title" id="title" required)
