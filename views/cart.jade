@@ -5,35 +5,94 @@ append stylesheets
 
 block content
     div(class="container")
-        -if(typeof(error) !== 'undefined'){
+    
+        - if(typeof(isHistory) !== 'undefined' && isHistory){
+            div(class="heading")
+                h1 Order #{historyLength - currentPage +1}
+                div(class="table")
+                    div(class="layout-inline row th")
+                        div(class="col col-pro") Product
+                        div(class="col col-price align-center") Price
+                        div(class="col col-qty align-center") QTY
+                        div(class="col col-qty align-center")
+                        div(class="col col-qty align-center")
+                    div(class="layout-inline row")
+                        - for(let i=0; i <cart.list.length; i++){
+                            div(class="col layout-inline")
+                                img(src=`/images/${images[i]}`)
+                                p #{cart.list[i].name}
+                            div(class="col col-price align-center")
+                                p #{cart.list[i].price}
+                            div(class="col col-qty layout-inline")
+                                p #{cart.list[i].quantity}
+                            form(action=`/cart/edit` method="GET")
+                                input(type="hidden" name="id" value=`${cart.list[i].gameID}`)
+                            form(action="/cart?_method=DELETE" method="POST")
+                                input(type="hidden" name="id" value=`${cart.list[i].gameID}`)
+                            hr
+                        -}
+                    div(class="row layout-inline")
+                        p Total Price: #{cart.total.toFixed(2)}
+                div(class="row justify-content-between")
+                    -if(nextPage && previousPage){
+                        div(class="col-4")
+                            a(href=`/history/?page=${currentPage-1}` class="btn btn-lg btn-primary") Previous Page
+                            div(class="col-4")
+                            a(href=`/history/?page=${currentPage+1}` class="btn btn-lg btn-primary") Next Page
+                    -}
+                    -else{
+                        - if(nextPage){
+                            div(class="col-md-4 offset-8")
+                            a(href=`/history/?page=${currentPage+1}` class="btn btn-lg btn-primary") Next Page
+
+                        -}
+                        - if(previousPage){
+                            div(class="col-4")
+                            a(href=`/history/?page=${currentPage-1}` class="btn btn-lg btn-primary") Previous Page
+                        -}
+                    -}
+        -}
+        - else{
+            -if(typeof(error) !== 'undefined'){
             p One of your item is out of stock
         -}
 
         div(class="heading")
             h1 Shopping Cart
-        div(class="table")
-            div(class="layout-inline row th")
-                div(class="col col-pro") Product
-                div(class = "col col-price align-center") Price
-                div(class = "col col-qty align-center") QTY
-            div(class="layout-inline row")
-                - for(let i=0; i <cart.list.length; i++){
-                    div(class="col layout-inline")
-                        img(src=`/images/${images[i]}`)
-                        p #{cart.list[i].name}
-                    div(class="col col-price align-center")
-                        p #{cart.list[i].price}
-                    div(class="col col-qty layout-inline")
-                        p #{cart.list[i].quantity}
-                    a(href=`/cart/edit?${cart.list[i].gameID}` class="btn btn-primary" ) Edit
-                    form(action="/cart?_method=DELETE" method="POST")
-                        input(type="hidden" value=`${cart.list[i].gameID}`)
-                        button(type="submit" class="btn btn-danger") Remove item
-                -}
-            div(class="row layout-inline")
-                p Total Price: #{cart.total}
-        form(id="checkout-form" class="form" action="/checkout" method="post")
-            div(class="form-group")
-                button(type="submit" class="btn btn-primary") Submit
+            -if(cart.list.length === 0){
+                h3 Cart is empty
+            -}
+            -else{
+                div(class="table")
+                    div(class="layout-inline row th")
+                        div(class="col col-pro") Product
+                        div(class="col col-price align-center") Price
+                        div(class="col col-qty align-center") QTY
+                        div(class="col col-qty align-center")
+                        div(class="col col-qty align-center")
+                    div(class="layout-inline row")
+                        - for(let i=0; i <cart.list.length; i++){
+                            div(class="col layout-inline")
+                                img(src=`/images/${images[i]}`)
+                                p #{cart.list[i].name}
+                            div(class="col col-price align-center")
+                                p #{cart.list[i].price}
+                            div(class="col col-qty layout-inline")
+                                p #{cart.list[i].quantity}
+                            form(action=`/cart/edit` method="GET")
+                                input(type="hidden" name="id" value=`${cart.list[i].gameID}`)
+                                button(type="submit" class="btn btn-primary" ) Edit
+                            form(action="/cart?_method=DELETE" method="POST")
+                                input(type="hidden" name="id" value=`${cart.list[i].gameID}`)
+                                button(type="submit" class="btn btn-danger") Remove item
+                            hr
+                        -}
+                    div(class="row layout-inline")
+                        p Total Price: #{cart.total.toFixed(2)}
+                form(id="checkout-form" class="form" action="/checkout" method="post")
+                    div(class="form-group")
+                        button(type="submit" class="btn btn-primary") Submit
+            -}
+        -}
 
     
