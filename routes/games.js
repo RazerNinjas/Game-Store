@@ -84,6 +84,7 @@ router.get('/search', function(req,res,next){
                 else
                 {
                     res.render("search", {title: "Search", isAdmin: true, games: result, username: req.session.user, nextPage: nextPage, previousPage: previousPage, searchTerm: req.query.title, category: req.query.category, currentPage: currentPage});
+                    return;
                 }
                 
             }
